@@ -37,10 +37,6 @@ module.exports = {
             filename: 'bundle.js',
             path: path.resolve(__dirname, 'dist'),
         },
-        // devServer: (devServerConfig) => {
-        //     devServerConfig.port = 6000;  // 设置端口号
-        //     return devServerConfig;
-        // }
     },
     // 配置别名
     plugins: [
