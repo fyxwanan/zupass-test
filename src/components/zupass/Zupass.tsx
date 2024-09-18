@@ -11,7 +11,7 @@ const Zupass = () => {
             revealAttendeeName: true,
             revealEventId: true,
             // revealProductId: "cc9e3650-c29b-4629-b275-6b34fc70b2f9",
-            revealProductId: "c4d66119-6ca8-4c0f-b591-9f932d8c1e9e"
+            revealProductId: true
         },
         // @ts-ignore
         watermark: 12345n,
@@ -36,9 +36,14 @@ const Zupass = () => {
         const result = await zuAuthPopup(zuAuthPopupConfig);
         console.log("result ====>", result)
         if (result.type === "pcd") {
-            const pcd = await ZKEdDSAEventTicketPCDPackage.deserialize(result.pcdStr);
-            // @ts-ignore
-            console.log("The user's email address is " + pcd.claim.partialTicket.attendeeEmailAddress);
+            try {
+                const serializedPCD = JSON.parse(result.pcdStr).pcd;
+                const pcd = await ZKEdDSAEventTicketPCDPackage.deserialize(serializedPCD);
+                console.log("The user's email address is " + pcd.claim.partialTicket.attendeeEmail);
+                setEmail(pcd.claim.partialTicket.attendeeEmail);
+            } catch (e) {
+                console.log("e ====>", e);
+            }
         }
     }
 
